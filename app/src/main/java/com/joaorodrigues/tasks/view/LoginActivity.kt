@@ -15,24 +15,37 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        // Variáveis da classe
         viewModel = ViewModelProvider(this).get(LoginViewModel::class.java)
         binding = ActivityLoginBinding.inflate(layoutInflater)
 
-        // Layout
         setContentView(binding.root)
 
-        // Eventos
         binding.buttonLogin.setOnClickListener(this)
         binding.textRegister.setOnClickListener(this)
 
-        // Observadores
         observe()
     }
 
     override fun onClick(v: View) {
+        when (v.id) {
+            binding.buttonLogin.id -> {
+                handleLogin()
+            }
+
+            binding.textRegister.id -> {
+                val email = binding.editEmail.text.toString()
+                val password = binding.editPassword.text.toString()
+                //viewModel.create(email, password)
+            }
+        }
     }
 
     private fun observe() {
+    }
+
+    private fun handleLogin() {
+        val email = binding.editEmail.text.toString()
+        val password = binding.editPassword.text.toString()
+        viewModel.doLogin(email, password)
     }
 }
