@@ -1,6 +1,6 @@
 package com.joaorodrigues.tasks.service.listener
 
-interface ApiListener<T> {
+interface APIListener<T> {
 
         fun onSuccess(result: T)
 
