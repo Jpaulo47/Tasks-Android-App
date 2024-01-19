@@ -1,5 +1,7 @@
 package com.joaorodrigues.tasks.view
 
+import android.app.ProgressDialog
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,9 +11,14 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.joaorodrigues.tasks.databinding.FragmentAllTasksBinding
+import com.joaorodrigues.tasks.service.constants.TaskConstants
 import com.joaorodrigues.tasks.service.listener.TaskListener
 import com.joaorodrigues.tasks.view.adapter.TaskAdapter
 import com.joaorodrigues.tasks.viewmodel.TaskListViewModel
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.GlobalScope.coroutineContext
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.launch
 
 class AllTasksFragment : Fragment() {
 
@@ -36,7 +43,7 @@ class AllTasksFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        viewModel.list()
+       viewModel.list()
     }
 
     override fun onDestroyView() {
@@ -65,6 +72,9 @@ class AllTasksFragment : Fragment() {
     private fun listener() {
         val listener = object : TaskListener {
             override fun onListClick(id: Int) {
+                val intent = Intent(context, TaskFormActivity::class.java)
+                intent.putExtra(TaskConstants.BUNDLE.TASKID, id)
+                startActivity(intent)
             }
 
             override fun onDeleteClick(id: Int) {

@@ -34,6 +34,7 @@ interface TaskService {
     ): Call<Boolean>
 
     @PUT("Task")
+    @FormUrlEncoded
     fun update(
         @Field("Id") id: Int,
         @Field("PriorityId") priorityId: Int,
