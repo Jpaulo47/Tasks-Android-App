@@ -1,7 +1,6 @@
 package com.joaorodrigues.tasks.service.repository.remote
 
 import com.joaorodrigues.tasks.service.constants.TaskConstants
-import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory

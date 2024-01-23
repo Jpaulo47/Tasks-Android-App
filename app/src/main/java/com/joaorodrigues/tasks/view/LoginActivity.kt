@@ -5,8 +5,11 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
+import com.joaorodrigues.tasks.R
 import com.joaorodrigues.tasks.databinding.ActivityLoginBinding
+import com.joaorodrigues.tasks.service.helper.BiometricHelper
 import com.joaorodrigues.tasks.viewmodel.LoginViewModel
 
 class LoginActivity : AppCompatActivity(), View.OnClickListener {
@@ -25,7 +28,7 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
         binding.buttonLogin.setOnClickListener(this)
         binding.textRegister.setOnClickListener(this)
 
-        viewModel.verifyLoggedUser()
+        viewModel.verifyAuthentication()
 
         observe()
     }
@@ -45,8 +48,7 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
     private fun observe() {
         viewModel.login.observe(this) {
             if (it.success()) {
-                startActivity(Intent(this, MainActivity::class.java))
-                finish()
+                biometricAuthentication()
             } else {
                 Toast.makeText(this, it.message(), Toast.LENGTH_SHORT).show()
             }
@@ -66,4 +68,35 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
         val password = binding.editPassword.text.toString()
         viewModel.doLogin(email, password)
     }
+
+    private fun biometricAuthentication() {
+
+        if (BiometricHelper.isBiometricAvailable(this)) {
+            val executor = ContextCompat.getMainExecutor(this)
+            val biometric =androidx.biometric.BiometricPrompt(this, executor, object : androidx.biometric.BiometricPrompt.AuthenticationCallback() {
+
+                override fun onAuthenticationSucceeded(result: androidx.biometric.BiometricPrompt.AuthenticationResult) {
+                    super.onAuthenticationSucceeded(result)
+                    startActivity(Intent(applicationContext, MainActivity::class.java))
+                    finish()
+                }
+
+            })
+
+            val promptInfo = androidx.biometric.BiometricPrompt.PromptInfo.Builder()
+                .setTitle(getString(R.string.biometric_login_for_my_app))
+                .setSubtitle(getString(R.string.log_in_using_your_biometric_credential))
+                .setDescription(getString(R.string.touch_your_finger_on_the_sensor_to_login))
+                .setNegativeButtonText(getString(R.string.cancel))
+                .build()
+
+            biometric.authenticate(promptInfo)
+        } else {
+            startActivity(Intent(this, MainActivity::class.java))
+            finish()
+        }
+
+
+    }
+
 }

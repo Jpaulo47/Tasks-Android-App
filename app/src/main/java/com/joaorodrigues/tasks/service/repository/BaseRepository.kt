@@ -1,6 +1,8 @@
 package com.joaorodrigues.tasks.service.repository
 
 import android.content.Context
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
 import com.google.gson.Gson
 import com.joaorodrigues.tasks.R
 import com.joaorodrigues.tasks.service.constants.TaskConstants
@@ -28,6 +30,23 @@ open class BaseRepository(val context: Context) {
                 listener.onFailure(context.getString(R.string.ERROR_UNEXPECTED))
             }
         })
+    }
+
+    fun isConnectionAvailable(): Boolean {
+
+        val result: Boolean
+        val conn = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val networkInfo = conn.activeNetwork ?: return false
+        val netWorkCapabilities = conn.getNetworkCapabilities(networkInfo) ?: return false
+
+        result = when {
+            netWorkCapabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) -> true
+            netWorkCapabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) -> true
+            else -> false
+        }
+
+        return result
+
     }
 
 }

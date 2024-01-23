@@ -1,6 +1,5 @@
 package com.joaorodrigues.tasks.view
 
-import android.app.ProgressDialog
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -15,10 +14,6 @@ import com.joaorodrigues.tasks.service.constants.TaskConstants
 import com.joaorodrigues.tasks.service.listener.TaskListener
 import com.joaorodrigues.tasks.view.adapter.TaskAdapter
 import com.joaorodrigues.tasks.viewmodel.TaskListViewModel
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.GlobalScope.coroutineContext
-import kotlinx.coroutines.coroutineScope
-import kotlinx.coroutines.launch
 
 class AllTasksFragment : Fragment() {
 
@@ -26,6 +21,7 @@ class AllTasksFragment : Fragment() {
     private var _binding: FragmentAllTasksBinding? = null
     private val binding get() = _binding!!
     private var adapter = TaskAdapter()
+    private var taskFilter = 0
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, b: Bundle?): View {
         viewModel = ViewModelProvider(this)[TaskListViewModel::class.java]
@@ -34,6 +30,7 @@ class AllTasksFragment : Fragment() {
         binding.recyclerAllTasks.layoutManager = LinearLayoutManager(context)
         binding.recyclerAllTasks.adapter = adapter
 
+        taskFilter = requireArguments().getInt(TaskConstants.BUNDLE.TASKFILTER, 0)
         listener()
 
         observe()
@@ -43,7 +40,7 @@ class AllTasksFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-       viewModel.list()
+       viewModel.list(taskFilter)
     }
 
     override fun onDestroyView() {

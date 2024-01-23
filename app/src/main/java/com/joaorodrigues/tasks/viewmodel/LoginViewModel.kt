@@ -5,6 +5,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.joaorodrigues.tasks.service.constants.TaskConstants
+import com.joaorodrigues.tasks.service.helper.BiometricHelper
 import com.joaorodrigues.tasks.service.listener.APIListener
 import com.joaorodrigues.tasks.service.model.PersonModel
 import com.joaorodrigues.tasks.service.model.PriorityModel
@@ -26,9 +27,6 @@ class LoginViewModel(application: Application) : AndroidViewModel(application) {
     private val _loggedUser = MutableLiveData<Boolean>()
     val loggedUser: LiveData<Boolean> = _loggedUser
 
-    /**
-     * Faz login usando API
-     */
     fun doLogin(email: String, password: String) {
         personRepository.login(email, password, object : APIListener<PersonModel> {
             override fun onSuccess(result: PersonModel) {
@@ -47,7 +45,7 @@ class LoginViewModel(application: Application) : AndroidViewModel(application) {
         })
     }
 
-    fun verifyLoggedUser() {
+    fun verifyAuthentication() {
         val token = securityPreferences.get(TaskConstants.SHARED.TOKEN_KEY)
         val personKey = securityPreferences.get(TaskConstants.SHARED.PERSON_KEY)
 
@@ -66,6 +64,12 @@ class LoginViewModel(application: Application) : AndroidViewModel(application) {
                 }
             })
         }
+
+        if (BiometricHelper.isBiometricAvailable(getApplication())) {
+            _loggedUser.value = (loggedUser && BiometricHelper.isBiometricAvailable(getApplication()))
+        }
+
+
     }
 
 }

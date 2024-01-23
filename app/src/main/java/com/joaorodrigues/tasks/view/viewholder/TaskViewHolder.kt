@@ -44,7 +44,7 @@ class TaskViewHolder(private val itemBinding: RowTaskListBinding, val listener: 
             AlertDialog.Builder(itemView.context)
                 .setTitle(R.string.remocao_de_tarefa)
                 .setMessage(R.string.remover_tarefa)
-                .setPositiveButton(R.string.sim) { dialog, which ->
+                .setPositiveButton(R.string.sim) { _, _ ->
                     listener.onDeleteClick(task.id)
                 }
                 .setNegativeButton(R.string.cancelar, null)

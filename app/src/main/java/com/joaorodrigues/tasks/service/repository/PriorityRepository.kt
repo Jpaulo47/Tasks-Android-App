@@ -37,6 +37,10 @@ class PriorityRepository(context: Context) : BaseRepository(context) {
     }
 
     fun list(listener: APIListener<List<PriorityModel>>) {
+        if (!isConnectionAvailable()) {
+            listener.onFailure(context.getString(com.joaorodrigues.tasks.R.string.ERROR_INTERNET_CONNECTION))
+            return
+        }
         executeCall(remote.list(), listener)
     }
 

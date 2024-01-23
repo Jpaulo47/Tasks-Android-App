@@ -3,7 +3,7 @@
 
     <string name="ERROR_UNEXPECTED">Um erro inesperado ocorreu. Tente novamente mais tarde.</string>
     <string name="ERROR_LOAD_TASK">Erro ao carregar a tarefa.</string>
-    <string name="ERROR_INTERNET_CONNECTION">Conexão à internet necessária para uso da applicação.</string>
+    <string name="ERROR_INTERNET_CONNECTION">Conexão à internet necessária para uso da aplicação.</string>
 
     <string name="task_updated">Tarefa atualizada com sucesso!</string>
     <string name="task_created">Tarefa criada com sucesso!</string>
@@ -32,5 +32,9 @@
     <string name="expiradas">Expiradas</string>
     <string name="todas_tarefas">Tarefas</string>
     <string name="proximos_7_dias">Próximos 7 dias</string>
+    <string name="biometric_login_for_my_app">Biometric login for my app</string>
+    <string name="log_in_using_your_biometric_credential">Log in using your biometric credential</string>
+    <string name="touch_your_finger_on_the_sensor_to_login">Touch your finger on the sensor to login</string>
+    <string name="cancel">Cancel</string>
 
 </resources>
