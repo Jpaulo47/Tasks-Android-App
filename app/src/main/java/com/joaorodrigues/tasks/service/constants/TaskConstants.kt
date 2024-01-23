@@ -5,7 +5,6 @@ package com.joaorodrigues.tasks.service.constants
  */
 class TaskConstants private constructor() {
 
-    // SharedPreferences
     object SHARED {
         const val TOKEN_KEY = "tokenkey"
         const val PERSON_KEY = "personkey"
@@ -13,7 +12,6 @@ class TaskConstants private constructor() {
 
     }
 
-    // Requisições API
     object HEADER {
         const val TOKEN_KEY = "token"
         const val PERSON_KEY = "personkey"
@@ -31,7 +29,6 @@ class TaskConstants private constructor() {
     object FILTER {
         const val ALL = 0
         const val NEXT = 1
-        const val EXPIRED = 2
     }
 
 }
